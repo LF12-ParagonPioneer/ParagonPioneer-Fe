@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParagonPioneer-Fe", "ParagonPioneer-Fe.csproj", "{4BFA3AC3-4750-4D19-A41D-FD05EAD70BAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParagonPioneerFe", "ParagonPioneerFe.csproj", "{4BFA3AC3-4750-4D19-A41D-FD05EAD70BAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
