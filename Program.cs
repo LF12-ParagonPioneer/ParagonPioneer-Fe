@@ -1,8 +1,8 @@
-using ParagonPioneerFe.Components;
+using ParagonPioneerFe;
 using Blazorise;
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
-using ParagonPioneerFe.Components.Services;
+using ParagonPioneerFe.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ builder.Services
     {
         options.Immediate = true;
     })
-    .AddBootstrapProviders()
+    .AddBootstrap5Providers()
     .AddFontAwesomeIcons();
 
 var app = builder.Build();

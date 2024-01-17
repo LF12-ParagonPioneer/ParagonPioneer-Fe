@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using ParagonPioneerFe.Components.Models;
+using ParagonPioneerFe.Models;
 
-namespace ParagonPioneerFe.Components.Services;
+namespace ParagonPioneerFe.Services;
 
 public class BackendService(HttpClient httpClient) : IBackendService
 {

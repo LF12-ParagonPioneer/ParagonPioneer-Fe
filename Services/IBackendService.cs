@@ -1,6 +1,6 @@
-﻿using ParagonPioneerFe.Components.Models;
+﻿using ParagonPioneerFe.Models;
 
-namespace ParagonPioneerFe.Components.Services;
+namespace ParagonPioneerFe.Services;
 
 public interface IBackendService
 {

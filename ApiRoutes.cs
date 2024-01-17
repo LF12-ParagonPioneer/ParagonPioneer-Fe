@@ -1,4 +1,4 @@
-﻿namespace ParagonPioneerFe.Components;
+﻿namespace ParagonPioneerFe;
 
 public static class ApiRoutes
 {

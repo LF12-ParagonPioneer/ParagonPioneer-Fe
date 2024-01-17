@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ParagonPioneerFe.Components.Models;
-using ParagonPioneerFe.Components.Services;
+using ParagonPioneerFe.Models;
+using ParagonPioneerFe.Services;
 
-namespace ParagonPioneerFe.Components.Pages;
+namespace ParagonPioneerFe.Pages;
 
 public partial class Home
 {
@@ -12,7 +12,7 @@ public partial class Home
     private List<Good> _goods = new();
 
     [Inject]
-    public IBackendService BackendService { get; set; } = default!;
+    public required IBackendService BackendService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,14 +1,14 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ParagonPioneerFe.Components.Models;
+namespace ParagonPioneerFe.Models;
 
 public class Building
 {
     [JsonPropertyName("id")] 
-    public string Id { get; set; } = null!;
+    public required string Id { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; }
 
     [JsonPropertyName("costs")] 
     public List<Cost> Costs { get; set; } = new();
