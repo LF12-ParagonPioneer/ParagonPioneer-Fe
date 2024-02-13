@@ -1,0 +1,12 @@
+﻿<div>
+    <h5 class="card-title">@Node.Good.Name</h5>
+    @Node.Quantity x <i class="fa-sharp fa-solid fa-bread-loaf"></i>
+    
+    @foreach (var port in Node.Ports)
+    {
+        // In case you have any ports to show
+        // IMPORTANT: You are always in charge of rendering ports
+        <PortRenderer @key="port" Port="port" />
+    }
+
+</div>
