@@ -5,15 +5,23 @@ using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.PathGenerators;
 using Blazor.Diagrams.Core.Routers;
 using Blazor.Diagrams.Options;
+using Microsoft.AspNetCore.Components;
+using ParagonPioneerFe.Components.Diagram.Nodes;
+using ParagonPioneerFe.Models;
 
 namespace ParagonPioneerFe.Components.Diagram
 {
     public partial class ProductionChainDiagram
     {
-        private BlazorDiagram Diagram { get; set; } = null!;
+        [Parameter]
+        public Recipe? Recipe { get; set; }
+        
+        private BlazorDiagram Diagram { get; set; } = new();
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
+            
             var options = new BlazorDiagramOptions
             {
                 AllowMultiSelection = true,
@@ -29,24 +37,22 @@ namespace ParagonPioneerFe.Components.Diagram
             };
 
             Diagram = new BlazorDiagram(options);
+            Diagram.RegisterComponent<GoodNode, GoodNodeWidget>();
+            if (Recipe is null) return;
+            
+            var outputNode = Diagram.Nodes.Add(new GoodNode(good: Recipe.Output, quantity: 1, position: new Point(200, 100)));
 
-            var firstNode = Diagram.Nodes.Add(new NodeModel(position: new Point(50, 50))
+            foreach (var input in Recipe.Inputs)
             {
-                Title = "Node 1"
-            });
-            var secondNode = Diagram.Nodes.Add(new NodeModel(position: new Point(200, 100))
-            {
-                Title = "Node 2"
-            });
-            var leftPort = secondNode.AddPort(PortAlignment.Left);
-            var rightPort = secondNode.AddPort(PortAlignment.Right);
-
-            // The connection point will be the intersection of
-            // a line going from the target to the center of the source
-            var sourceAnchor = new ShapeIntersectionAnchor(firstNode);
-            // The connection point will be the port's position
-            var targetAnchor = new SinglePortAnchor(leftPort);
-            var link = Diagram.Links.Add(new LinkModel(sourceAnchor, targetAnchor));
+                var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, 50))
+                {
+                    Good = input.Good,
+                    Quantity = input.Quantity
+                });
+                
+                var link = Diagram.Links.Add(new LinkModel(inputNode, outputNode));
+                link.TargetMarker = LinkMarker.Arrow;
+            }
         }
     }
 }
