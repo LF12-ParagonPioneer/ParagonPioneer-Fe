@@ -1,6 +1,7 @@
 ﻿using Blazor.Diagrams;
 using Blazor.Diagrams.Core.Anchors;
 using Blazor.Diagrams.Core.Geometry;
+using Blazor.Diagrams.Core.Layers;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.PathGenerators;
 using Blazor.Diagrams.Core.Routers;
@@ -18,11 +19,10 @@ namespace ParagonPioneerFe.Components.Diagram
         
         [Parameter]
         public EventCallback<Recipe?> RecipeChanged { get; set; }
-        
-        private BlazorDiagram? Diagram { get; set; }
-        private Recipe? _recipe;
-        
-        protected override void OnParametersSet()
+
+        private BlazorDiagram Diagram { get; set; } = null!;
+
+        protected override void OnInitialized()
         {
             var options = new BlazorDiagramOptions
             {
@@ -37,9 +37,15 @@ namespace ParagonPioneerFe.Components.Diagram
                     DefaultPathGenerator = new SmoothPathGenerator()
                 },
             };
-
+            
             Diagram = new BlazorDiagram(options);
             Diagram.RegisterComponent<GoodNode, GoodNodeWidget>();
+        }
+
+        protected override void OnParametersSet()
+        {
+            Diagram.Links.Clear();
+            Diagram.Nodes.Clear();
             
             if (Recipe is null) return;
             
@@ -48,6 +54,8 @@ namespace ParagonPioneerFe.Components.Diagram
             var inputY = 20;
             foreach (var input in Recipe.QuantityOfGoods)
             {
+                if (input.Good is null) continue;
+                
                 var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, inputY))
                 {
                     Good = input.Good,
@@ -62,8 +70,6 @@ namespace ParagonPioneerFe.Components.Diagram
 
             // ReSharper disable once PossibleLossOfFraction
             Diagram.Nodes[0].SetPosition(500, 20 + 150 * (Diagram.Nodes.Count - 2) / 2);
-            
-            StateHasChanged();
         }
     }
 }
