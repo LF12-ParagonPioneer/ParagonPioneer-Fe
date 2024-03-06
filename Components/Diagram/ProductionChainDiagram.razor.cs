@@ -64,6 +64,7 @@ namespace ParagonPioneerFe.Components.Diagram
                 
                 var link = Diagram.Links.Add(new LinkModel(inputNode, outputNode));
                 link.TargetMarker = LinkMarker.Arrow;
+                link.Color = "#FFFFFF";
 
                 inputY += 150;
             }
