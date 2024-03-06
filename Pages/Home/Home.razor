@@ -1,0 +1,22 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using ParagonPioneerFe.Pages.Home.Tabs
+
+<PageTitle>Landing Page</PageTitle>
+
+<h1 class="d-flex justify-content-center primary-text">Paragon Pioneers Production Chains</h1>
+
+<Tabs Justified Margin="Margin.Is3.FromTop" SelectedTab="simple">
+    <Items>
+        <Tab Name="simple">Simple Recipe</Tab>
+        <Tab Name="recursive">Recursive Recipe</Tab>
+    </Items>
+    <Content>
+        <TabPanel Name="simple">
+            <SimpleRecipeTab Goods="_goods"/>
+        </TabPanel>
+        <TabPanel Name="recursive">
+            <RecursiveRecipeTab Goods="_goods"/>
+        </TabPanel>
+    </Content>
+</Tabs>

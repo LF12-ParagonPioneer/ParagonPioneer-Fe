@@ -8,5 +8,5 @@ public class Input
     public required int Quantity { get; set; }
     
     [JsonPropertyName("good")]
-    public required Good Good { get; set; }
+    public Good? Good { get; set; }
 }

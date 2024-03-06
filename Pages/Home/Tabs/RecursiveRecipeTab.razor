@@ -1,12 +1,7 @@
-﻿@page "/"
+﻿@using ParagonPioneerFe.Models
 @using ParagonPioneerFe.Components.Diagram
-@using ParagonPioneerFe.Models
 
-<PageTitle>Landing Page</PageTitle>
-
-<h1 class="d-flex justify-content-center primary-text">Paragon Pioneers Production Chains</h1>
-
-<Row Flex="Flex.JustifyContent.Center" Margin="Margin.Is0">
+<Row Flex="Flex.JustifyContent.Center" Margin="Margin.Is3.FromTop.Is0">
     <Column ColumnSize="ColumnSize.Is4">
         <NumericPicker 
             TValue="double" 
@@ -18,7 +13,7 @@
     <Column ColumnSize="ColumnSize.Is4">
         <Autocomplete TValue="Good"
                       TItem="Good"
-                      Data="_goods"
+                      Data="Goods"
                       Filter="AutocompleteFilter.Contains"
                       @bind-SelectedValue="_selectedGood"
                       TextField="@(item => item.Name)"
@@ -27,5 +22,4 @@
     </Column>
 </Row>
 
-
-<ProductionChainDiagram Recipe="_recipe"/>
+<ProductionChainDiagram @bind-Recipe="_recipe"/>

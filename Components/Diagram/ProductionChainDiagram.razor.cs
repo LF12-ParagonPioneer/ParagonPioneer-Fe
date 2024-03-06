@@ -1,6 +1,7 @@
 ﻿using Blazor.Diagrams;
 using Blazor.Diagrams.Core.Anchors;
 using Blazor.Diagrams.Core.Geometry;
+using Blazor.Diagrams.Core.Layers;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.PathGenerators;
 using Blazor.Diagrams.Core.Routers;
@@ -16,12 +17,13 @@ namespace ParagonPioneerFe.Components.Diagram
         [Parameter]
         public Recipe? Recipe { get; set; }
         
-        private BlazorDiagram Diagram { get; set; } = new();
+        [Parameter]
+        public EventCallback<Recipe?> RecipeChanged { get; set; }
+
+        private BlazorDiagram Diagram { get; set; } = null!;
 
         protected override void OnInitialized()
         {
-            base.OnInitialized();
-            
             var options = new BlazorDiagramOptions
             {
                 AllowMultiSelection = true,
@@ -35,16 +37,26 @@ namespace ParagonPioneerFe.Components.Diagram
                     DefaultPathGenerator = new SmoothPathGenerator()
                 },
             };
-
+            
             Diagram = new BlazorDiagram(options);
             Diagram.RegisterComponent<GoodNode, GoodNodeWidget>();
+        }
+
+        protected override void OnParametersSet()
+        {
+            Diagram.Links.Clear();
+            Diagram.Nodes.Clear();
+            
             if (Recipe is null) return;
             
-            var outputNode = Diagram.Nodes.Add(new GoodNode(good: Recipe.Output, quantity: 1, position: new Point(200, 100)));
+            var outputNode = Diagram.Nodes.Add(new GoodNode(good: Recipe.Output, quantity: 1, position: new Point(500, 100)));
 
-            foreach (var input in Recipe.Inputs)
+            var inputY = 20;
+            foreach (var input in Recipe.QuantityOfGoods)
             {
-                var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, 50))
+                if (input.Good is null) continue;
+                
+                var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, inputY))
                 {
                     Good = input.Good,
                     Quantity = input.Quantity
@@ -52,7 +64,12 @@ namespace ParagonPioneerFe.Components.Diagram
                 
                 var link = Diagram.Links.Add(new LinkModel(inputNode, outputNode));
                 link.TargetMarker = LinkMarker.Arrow;
+
+                inputY += 150;
             }
+
+            // ReSharper disable once PossibleLossOfFraction
+            Diagram.Nodes[0].SetPosition(500, 20 + 150 * (Diagram.Nodes.Count - 2) / 2);
         }
     }
 }
