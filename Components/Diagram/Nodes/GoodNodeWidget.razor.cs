@@ -4,5 +4,5 @@ namespace ParagonPioneerFe.Components.Diagram.Nodes;
 
 public partial class GoodNodeWidget
 {
-    [Parameter] public GoodNode Node { get; set; } = null!;
+    [Parameter] public required GoodNode Node { get; set; }
 }

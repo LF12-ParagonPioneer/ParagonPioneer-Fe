@@ -1,0 +1,17 @@
+﻿@using ParagonPioneerFe.Models
+@using ParagonPioneerFe.Components.Diagram
+
+<Row Flex="Flex.JustifyContent.Center" Margin="Margin.Is3.FromTop.Is0">
+    <Column ColumnSize="ColumnSize.Is4">
+        <Autocomplete TValue="Good"
+                      TItem="Good"
+                      Data="Goods"
+                      Filter="AutocompleteFilter.Contains"
+                      SelectedValueChanged="@GetRecipe"
+                      TextField="@(item => item.Name)"
+                      ValueField="@(item => item)"
+                      Placeholder="Search Good"/>
+    </Column>
+</Row>
+
+<ProductionChainDiagram @bind-Recipe="@_recipe"/>

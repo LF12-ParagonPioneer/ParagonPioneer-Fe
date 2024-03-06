@@ -1,21 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ParagonPioneerFe.Components.Diagram;
 using ParagonPioneerFe.Models;
 using ParagonPioneerFe.Services;
 
-namespace ParagonPioneerFe.Pages;
+namespace ParagonPioneerFe.Pages.Home.Tabs;
 
-public partial class Home
+public partial class RecursiveRecipeTab
 {
+    [Parameter] public List<Good> Goods { get; set; } = [];
+    // [Inject] public required IBackendService BackendService { get; set; }
+
+    
     private double _productionRate;
     private Good? _selectedGood;
-
-    private List<Good> _goods = new();
-
-    [Inject]
-    public required IBackendService BackendService { get; set; }
-
-    private ProductionChainDiagram? _diagram;
+    
     private Recipe? _recipe = new()
     {
         Id = "B77BC074-7C0C-4EB5-A6D6-D9DF5EFECB30",
@@ -24,8 +21,8 @@ public partial class Home
             Id = "C824D1C0-8E1F-41D1-A59F-950FE482C53D",
             Name = "Bread"
         },
-        Inputs = new List<Input>
-        {
+        QuantityOfGoods = 
+        [
             new()
             {
                 Quantity = 1,
@@ -35,6 +32,7 @@ public partial class Home
                     Name = "Land Tile"
                 }
             },
+
             new()
             {
                 Quantity = 3,
@@ -44,12 +42,6 @@ public partial class Home
                     Name = "Flour"
                 }
             }
-        }
+        ]
     };
-
-    protected override async Task OnInitializedAsync()
-    {
-        _goods = await BackendService.GetAllGoods();
-
-    }
 }

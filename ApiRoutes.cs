@@ -6,7 +6,8 @@ public static class ApiRoutes
     public const string GetAllGoods = BaseUri + "good";
     public const string GetAllBuildings = BaseUri + "building";
     public const string GetAllPopulations = BaseUri + "population";
-    public static string GetGood(int id) => GetAllGoods + "/" + id;
+    public static string GetGood(string id) => GetAllGoods + "/" + id;
+    public static string GetRecipe(string id) => BaseUri + "recipe/output/" + id;
     public static string GetBuilding(int id) => GetAllBuildings + "/" + id;
     public static string GetPopulation(int id) => GetAllPopulations + "/" + id;
 }

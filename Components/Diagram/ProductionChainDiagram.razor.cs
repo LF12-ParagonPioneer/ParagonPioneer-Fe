@@ -16,12 +16,14 @@ namespace ParagonPioneerFe.Components.Diagram
         [Parameter]
         public Recipe? Recipe { get; set; }
         
-        private BlazorDiagram Diagram { get; set; } = new();
-
-        protected override void OnInitialized()
+        [Parameter]
+        public EventCallback<Recipe?> RecipeChanged { get; set; }
+        
+        private BlazorDiagram? Diagram { get; set; }
+        private Recipe? _recipe;
+        
+        protected override void OnParametersSet()
         {
-            base.OnInitialized();
-            
             var options = new BlazorDiagramOptions
             {
                 AllowMultiSelection = true,
@@ -38,13 +40,15 @@ namespace ParagonPioneerFe.Components.Diagram
 
             Diagram = new BlazorDiagram(options);
             Diagram.RegisterComponent<GoodNode, GoodNodeWidget>();
+            
             if (Recipe is null) return;
             
-            var outputNode = Diagram.Nodes.Add(new GoodNode(good: Recipe.Output, quantity: 1, position: new Point(200, 100)));
+            var outputNode = Diagram.Nodes.Add(new GoodNode(good: Recipe.Output, quantity: 1, position: new Point(500, 100)));
 
-            foreach (var input in Recipe.Inputs)
+            var inputY = 20;
+            foreach (var input in Recipe.QuantityOfGoods)
             {
-                var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, 50))
+                var inputNode = Diagram.Nodes.Add(new GoodNode(good: input.Good, quantity: input.Quantity, position: new Point(50, inputY))
                 {
                     Good = input.Good,
                     Quantity = input.Quantity
@@ -52,7 +56,14 @@ namespace ParagonPioneerFe.Components.Diagram
                 
                 var link = Diagram.Links.Add(new LinkModel(inputNode, outputNode));
                 link.TargetMarker = LinkMarker.Arrow;
+
+                inputY += 150;
             }
+
+            // ReSharper disable once PossibleLossOfFraction
+            Diagram.Nodes[0].SetPosition(500, 20 + 150 * (Diagram.Nodes.Count - 2) / 2);
+            
+            StateHasChanged();
         }
     }
 }
